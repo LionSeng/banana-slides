@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Edit2, RefreshCw } from 'lucide-react';
-import { Card, StatusBadge, Button, Modal, Textarea, Input } from '@/components/shared';
+import { Card, StatusBadge, Button, Modal, Textarea } from '@/components/shared';
 import type { Page } from '@/types';
 
 interface DescriptionCardProps {
@@ -16,41 +16,26 @@ export const DescriptionCard: React.FC<DescriptionCardProps> = ({
   onUpdate,
   onRegenerate,
 }) => {
-  // 兼容后端返回的数据格式
+  // 后端只返回纯文本，从 description_content.text 获取
   const descContent = page.description_content;
-  const title = descContent?.title || '';
-  const textContent = descContent?.text_content || [];
-  const layoutSuggestion = descContent?.layout_suggestion || '';
+  const text = (descContent as any)?.text || '';
   
   const [isEditing, setIsEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
-  const [editContent, setEditContent] = useState(
-    Array.isArray(textContent) ? textContent.join('\n') : ''
-  );
-  const [editLayout, setEditLayout] = useState(layoutSuggestion);
+  const [editContent, setEditContent] = useState('');
 
   const handleEdit = () => {
     // 在打开编辑对话框时，从当前的 page 获取最新值
     const currentDescContent = page.description_content;
-    const currentTitle = currentDescContent?.title || '';
-    const currentTextContent = currentDescContent?.text_content || [];
-    const currentLayoutSuggestion = currentDescContent?.layout_suggestion || '';
-    
-    setEditTitle(currentTitle);
-    setEditContent(
-      Array.isArray(currentTextContent) ? currentTextContent.join('\n') : ''
-    );
-    setEditLayout(currentLayoutSuggestion);
+    const currentText = (currentDescContent as any)?.text || '';
+    setEditContent(currentText);
     setIsEditing(true);
   };
 
   const handleSave = () => {
     onUpdate({
       description_content: {
-        title: editTitle,
-        text_content: editContent.split('\n').filter((t) => t.trim()),
-        layout_suggestion: editLayout,
-      },
+        text: editContent,
+      } as any,
     });
     setIsEditing(false);
   };
@@ -75,51 +60,9 @@ export const DescriptionCard: React.FC<DescriptionCardProps> = ({
 
         {/* 内容 */}
         <div className="p-4">
-          {page.description_content ? (
-            <div className="space-y-3">
-              {/* 如果有 title 字段 */}
-              {descContent?.title && (
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">标题</div>
-                  <div className="font-medium text-gray-900">
-                    {descContent.title}
-                  </div>
-                </div>
-              )}
-              
-              {/* 如果有 text_content 数组 */}
-              {Array.isArray(descContent?.text_content) && descContent.text_content.length > 0 && (
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">内容</div>
-                  <div className="space-y-1">
-                    {descContent.text_content.map((text, idx) => (
-                      <p key={idx} className="text-sm text-gray-700">
-                        {text}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {/* 如果只有 text 字段（后端返回格式） */}
-              {(descContent as any)?.text && (
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">描述内容</div>
-                  <div className="text-sm text-gray-700 whitespace-pre-wrap">
-                    {(descContent as any).text}
-                  </div>
-                </div>
-              )}
-              
-              {/* 如果有布局建议 */}
-              {descContent?.layout_suggestion && (
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">布局建议</div>
-                  <div className="text-sm text-gray-600">
-                    {descContent.layout_suggestion}
-                  </div>
-                </div>
-              )}
+          {text ? (
+            <div className="text-sm text-gray-700 whitespace-pre-wrap">
+              {text}
             </div>
           ) : (
             <div className="text-center py-8 text-gray-400">
@@ -159,21 +102,11 @@ export const DescriptionCard: React.FC<DescriptionCardProps> = ({
         size="lg"
       >
         <div className="space-y-4">
-          <Input
-            label="标题"
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-          />
           <Textarea
-            label="内容（每行一段）"
+            label="描述内容"
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            rows={8}
-          />
-          <Input
-            label="布局建议"
-            value={editLayout}
-            onChange={(e) => setEditLayout(e.target.value)}
+            rows={12}
           />
           <div className="flex justify-end gap-3 pt-4">
             <Button variant="ghost" onClick={() => setIsEditing(false)}>
