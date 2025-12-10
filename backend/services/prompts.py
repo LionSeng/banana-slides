@@ -246,32 +246,33 @@ def get_image_generation_prompt(page_desc: str, outline_text: str,
     extra_req_text = ""
     if extra_requirements and extra_requirements.strip():
         extra_req_text = f"\n\n额外要求（请务必遵循）：\n{extra_requirements}\n"
-    
+
+# 该处参考了@歸藏的A工具箱
     prompt = (f"""\
-<task>
-利用专业平面设计知识，根据参考图片的配色与风格生成一页设计风格相同的ppt页面，作为整个ppt的其中一页，页面描述如下:
+你是一位专家级UI UX演示设计师，专注于生成设计良好的PPT页面。
+当前PPT页面的页面描述如下:
 <page_description>
 {page_desc}
 </page_description>
-</task>
----
 
 <reference_information>
-整个ppt的大纲为：
+整个PPT的大纲为：
 {outline_text}
 
 当前位于章节：{current_section}
 </reference_information>
 
 
-<requirements>
-1. 非必要情况下，页面中禁止出现markdown格式符号，如#和*等。
-2. 页面文字中，标点符号和文字排版布局可进一步设计美化，但非符号文字内容需和"页面描述"完全一致
-3. 要求文字清晰锐利，画面为4K分辨率 16:9比例。画面配色与风格保持严格一致。
-4. 画面组件布局需要根据页面内容灵活调整，可添加素材平衡画面整体观感，以达到最佳的视觉效果。
-5. **禁止出现与当前页面描述无关的任何文字，特别是参考图中的文字。**
-6. ppt使用全中文。{material_images_note}{extra_req_text}
-</requirements>
+<design_guidelines>
+- 画面为4K分辨率，16:9比例，文字清晰锐利
+- 配色和设计语言和模板图片严格相似。
+- 根据内容自动设计最完美的构图，不重不漏地渲染"页面描述"中的文本。
+- 如非必要，禁止出现 markdown 格式符号（如 # 和 * 等）
+- 只参考风格设计，禁止出现模板中的文字。
+- 使用大小恰当的装饰性图形或插画对空缺位置进行填补
+</design_guidelines>
+PPT文字使用中文。
+{material_images_note}{extra_req_text}
 """)
     
     logger.debug(f"[get_image_generation_prompt] Final prompt:\n{prompt}")
