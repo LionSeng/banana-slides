@@ -34,6 +34,16 @@
 
 </div>
 
+<h2></h2>
+
+<br>
+<div align="center">
+<a href="https://aihubmix.com/?aff=17EC">
+  <img src="./assets/logo_aihubmix.png" alt="AIHubMix" style="height:48px;">
+</a>
+<p>Thanks to AIHubMix for sponsoring this project</p>
+</div>
+
 
 ## ✨ Project Origin
 Have you ever been stuck in this situation: you have to present tomorrow, but your PPT is still blank; you have countless brilliant ideas in mind, but tedious layout and design drain all your enthusiasm?
@@ -67,7 +77,7 @@ However, the emergence of nano banana🍌 model changed everything. I tried usin
 | | |
 |:---:|:---:|
 | <img src="https://github.com/user-attachments/assets/d58ce3f7-bcec-451d-a3b9-ca3c16223644" width="500" alt="Example 3"> | <img src="https://github.com/user-attachments/assets/c64cd952-2cdf-4a92-8c34-0322cbf3de4e" width="500" alt="Example 2"> |
-| **Introduction to Software Development Principles** | **DeepSeek-V3.2 Technical Showcase** |
+| **Software Development Best Practices** | **DeepSeek-V3.2 Technical Showcase** |
 | <img src="https://github.com/user-attachments/assets/383eb011-a167-4343-99eb-e1d0568830c7" width="500" alt="Example 4"> | <img src="https://github.com/user-attachments/assets/1a63afc9-ad05-4755-8480-fc4aa64987f1" width="500" alt="Example 1"> |
 | **Prepared Food Smart Production Line Equipment R&D and Industrialization** | **The Evolution of Money: From Shells to Paper Currency** |
 
@@ -158,6 +168,7 @@ cp .env.example .env
 ```
 
 Edit the `.env` file to configure necessary environment variables:
+> **The project interface follows the AIHubMix platform format. We recommend using [AIHubMix](https://aihubmix.com/?aff=17EC) to get API keys, seamlessly switch between hundreds of mainstream models, and reduce migration costs**  
 ```env
 # AI Provider format configuration (gemini / openai)
 AI_PROVIDER_FORMAT=gemini
@@ -252,6 +263,7 @@ cp .env.example .env
 ```
 
 Edit the `.env` file to configure your API key:
+> **The project interface follows the AIHubMix platform format. We recommend using [AIHubMix](https://aihubmix.com/?aff=17EC) to get API keys, seamlessly switch between hundreds of mainstream models, and reduce migration costs** 
 ```env
 GOOGLE_API_KEY=your-api-key-here
 GOOGLE_API_BASE=https://generativelanguage.googleapis.com
