@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: banana-slides-frontend
+    env: static
+    plan: free
+    region: singapore
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://banana-slides-backend.onrender.com

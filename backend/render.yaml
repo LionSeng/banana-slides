@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: banana-slides-backend
+    env: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: banana-slides-db
+          property: connectionString
+      - key: AI_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generate: true
+      - key: UPLOAD_FOLDER
+        value: /opt/render/project/src/uploads
+      - key: MAX_CONTENT_LENGTH
+        value: 52428800
+      - key: PORT
+        value: 5000
+
+databases:
+  - name: banana-slides-db
+    plan: free
+    region: singapore
+    databaseName: banana_slides
+    user: banana_user
