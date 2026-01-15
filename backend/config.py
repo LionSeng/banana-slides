@@ -26,13 +26,14 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # SQLite线程安全配置 - 关键修复
+    # 禁用连接池（SQLite不需要）
     SQLALCHEMY_ENGINE_OPTIONS = {
         'connect_args': {
             'check_same_thread': False,  # 允许跨线程使用（仅SQLite）
             'timeout': 30  # 增加超时时间
         },
+        'poolclass': None,  # 禁用连接池（SQLite不需要）
         'pool_pre_ping': True,  # 连接前检查
-        'pool_recycle': 3600,  # 1小时回收连接
     }
     
     # 文件存储配置
